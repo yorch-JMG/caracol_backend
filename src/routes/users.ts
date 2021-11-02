@@ -2,6 +2,8 @@ import { Router } from "express";
 import {connection} from "../connection";
 import bcryptjs from 'bcryptjs';
 import mysql from 'mysql';
+import  jwt  from "jsonwebtoken";
+
 export const router = Router();
 
 router.get('/api/users', (req, res) => {
@@ -43,11 +45,16 @@ router.post('/api/login', async (req, res) => {
       if(result.length > 0){
         const foundUser = result[0][0];
         const foundUserPassword = foundUser.contrasena;
+        const foundUserEmail = foundUser.correoElectronico;
         console.log(foundUserPassword)
         try{
           if(bcryptjs.compareSync(contrasena, foundUserPassword)){
             console.log(true)
-            res.send("El usuario ha hecho login")
+            jwt.sign({user: foundUserEmail}, 'secretkey', (err : any, token : any) => {
+              res.send({
+                token
+              })
+            })
           }
           else{
             console.log(false)
