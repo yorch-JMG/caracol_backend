@@ -12,17 +12,15 @@ router.get('/api/users', (req, res) => {
   })
 });
 
-router.get('/api/users/create', async (req, res) => {
+router.post('/api/users/create', async (req, res) => {
   const nombre = req.body.nombre;
-  const contrasena = req.body.contrasena;
-
-  const encryptedPwd = bcryptjs.hashSync(contrasena, 8);
+  const encryptedPwd = bcryptjs.hashSync(req.body.contrasena, 8);
   const puesto = req.body.puesto;
   const departamento = req.body.departamento;
   const correoElectronico = req.body.correoElectronico;
   const telefono = req.body.telefono;
   
-  const createUser = "CALL createUser(?,?,?,?,?,?)";
+  const createUser = "CALL createUser(?,?,?,?,?,?)" ;
   const query = mysql.format(createUser, [nombre, encryptedPwd, puesto, departamento, correoElectronico, telefono]); 
   
     connection.query( query,
@@ -31,4 +29,35 @@ router.get('/api/users/create', async (req, res) => {
                        console.log(result);
                        res.json(result)
                      })
-})
+});
+
+router.post('/api/login', async (req, res) => {
+  const correoElectronico = req.body.correoElectronico;
+  const contrasena = req.body.contrasena;
+  const userLogin = "CALL login(?,?)";
+  const query = mysql.format(userLogin, [correoElectronico, bcryptjs.hashSync(contrasena)])
+  connection.query(
+    query,
+    (err, result) => {
+      if(err) throw err;
+      console.log(result);
+      res.json(result);
+      if(result.length > 0){
+        const foundUser = result[0][0];
+        const foundUserPassword = foundUser.contrasena;
+        console.log(foundUserPassword)
+        try{
+          if(bcryptjs.compareSync(contrasena, foundUserPassword)){
+            console.log(true)
+          }
+          else{
+            console.log(false)
+          }
+        }
+        catch(e){
+          res.status(500).send();
+        }
+      }
+    }
+  )
+});
