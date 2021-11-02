@@ -3,14 +3,26 @@ import {connection} from "../connection";
 import bcryptjs from 'bcryptjs';
 import mysql from 'mysql';
 import  jwt  from "jsonwebtoken";
-
+import { verifyToken } from "./verifyToken";
 export const router = Router();
 
-router.get('/api/users', (req, res) => {
-  connection.query("SELECT * FROM Empleado", (err, result) => {
-      if(err) throw err;
-      console.log(result)
-      res.json(result)
+interface IReq {
+  token : string
+}
+
+
+router.get('/api/users',verifyToken, (req : IReq, res : any) => {
+  jwt.verify(req.token, 'secretkey', (error, authData) => {
+    if(error){
+      res.sendStatus(403);
+    } else {
+        connection.query("SELECT * FROM Empleado", (err, result) => {
+            if(err) throw err;
+            console.log(result)
+            res.json(result)
+        })
+
+    }
   })
 });
 
@@ -50,7 +62,7 @@ router.post('/api/login', async (req, res) => {
         try{
           if(bcryptjs.compareSync(contrasena, foundUserPassword)){
             console.log(true)
-            jwt.sign({user: foundUserEmail}, 'secretkey', (err : any, token : any) => {
+            jwt.sign({user: foundUserEmail}, 'secretkey', {expiresIn: '1d'}, (err : any, token : any) => {
               res.send({
                 token
               })
@@ -68,3 +80,4 @@ router.post('/api/login', async (req, res) => {
     }
   )
 });
+
