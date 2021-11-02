@@ -2,6 +2,7 @@ import express, {Application} from "express";
 import jwt from "jsonwebtoken";
 import morgan from "morgan";
 import cors from 'cors';
+import {router} from "./routes/users";
 export class App {
   
   private app: Application;
@@ -18,6 +19,7 @@ export class App {
   middlewares() {
     this.app.use(morgan('dev'));
     this.app.use(cors())
+    this.app.use(router)
   }
 
   async listen() {
