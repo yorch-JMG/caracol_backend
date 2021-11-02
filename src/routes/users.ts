@@ -34,14 +34,12 @@ router.post('/api/users/create', async (req, res) => {
 router.post('/api/login', async (req, res) => {
   const correoElectronico = req.body.correoElectronico;
   const contrasena = req.body.contrasena;
-  const userLogin = "CALL login(?,?)";
+  const userLogin = "CALL getEmailAndPassword(?,?)";
   const query = mysql.format(userLogin, [correoElectronico, bcryptjs.hashSync(contrasena)])
   connection.query(
     query,
     (err, result) => {
       if(err) throw err;
-      console.log(result);
-      res.json(result);
       if(result.length > 0){
         const foundUser = result[0][0];
         const foundUserPassword = foundUser.contrasena;
@@ -49,13 +47,15 @@ router.post('/api/login', async (req, res) => {
         try{
           if(bcryptjs.compareSync(contrasena, foundUserPassword)){
             console.log(true)
+            res.send("El usuario ha hecho login")
           }
           else{
             console.log(false)
+            res.send("Contrasena incorrecta")
           }
         }
         catch(e){
-          res.status(500).send();
+          res.send("Error al intentar hacer login");
         }
       }
     }
