@@ -24,7 +24,7 @@ export class App {
   }
 
   async listen() {
-    await this.app.listen(this.port);
+    this.app.listen(this.port);
     console.log("listening on port", this.port);
   }
 }

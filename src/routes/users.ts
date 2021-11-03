@@ -28,7 +28,8 @@ router.get('/api/users',verifyToken, (req : IReq, res : any) => {
 
 router.post('/api/users/create', async (req, res) => {
   const nombre = req.body.nombre;
-  const encryptedPwd = bcryptjs.hashSync(req.body.contrasena, 8);
+  const contrasena = req.body.contrasena;
+  const encryptedPwd = bcryptjs.hash(contrasena, 8);
   const puesto = req.body.puesto;
   const departamento = req.body.departamento;
   const correoElectronico = req.body.correoElectronico;
