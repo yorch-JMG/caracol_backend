@@ -34,9 +34,11 @@ router.post('/api/users/create', async (req, res) => {
   const departamento = req.body.departamento;
   const correoElectronico = req.body.correoElectronico;
   const telefono = req.body.telefono;
+  console.log(nombre)
   
   const createUser = "CALL createUser(?,?,?,?,?,?)" ;
-  const query = mysql.format(createUser, [nombre, encryptedPwd, puesto, departamento, correoElectronico, telefono]); 
+  const query = mysql.format(createUser, [nombre, contrasena, puesto, departamento, correoElectronico, telefono]); 
+  console.log(query)
   
     connection.query( query,
                      (err, result) => {
@@ -61,7 +63,7 @@ router.post('/api/login', async (req, res) => {
         const foundUserEmail = foundUser.correoElectronico;
         console.log(foundUserPassword)
         try{
-          if(bcryptjs.compareSync(contrasena, foundUserPassword)){
+          if(contrasena === foundUserPassword){
             console.log(true)
             jwt.sign({user: foundUserEmail}, 'secretkey', {expiresIn: '1d'}, (err : any, token : any) => {
               res.send({
