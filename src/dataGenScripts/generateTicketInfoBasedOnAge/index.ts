@@ -10,20 +10,20 @@ export const generateTicketTypeBasedOnAge = (age : number) : TicketInfo => {
             precio : 60
           };
 
-      case age > 65:
+      case age >= 65:
         return {
             tipo :'Tercera Edad',
             precio : 40
           };
 
-      case age < 12 && age > 6:
+      case age <= 12 && age >= 6:
         return {
             tipo :'Menores',
             precio : 30
           };
 
-      case age < 5:
-        return {
+      case age >= 0 && age <= 5:
+          return {
             tipo :'Gratuita',
             precio : 0
           };
