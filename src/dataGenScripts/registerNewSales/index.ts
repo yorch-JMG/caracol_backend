@@ -4,7 +4,7 @@ import { generateFakeSalesArray } from '../generateFakeSalesArray';
 
 export const registerNewSales = async ( fecha : string ) => {
   const fakeSalesArray = generateFakeSalesArray( fecha, 50 ); 
-  const createUser = "CALL createUser(?,?,?,?,?,?)" ;
+  const createUser = "CALL createSale(?,?,?,?,?,?)" ;
   let query;
   let nombre, tipo_boleto, edad, correoElectronico, precio;
   for ( let i = 0 ; i < fakeSalesArray.length ; i++ ) { 
