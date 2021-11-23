@@ -29,7 +29,7 @@ router.get('/api/users',verifyToken, (req : IReq, res : any) => {
 router.post('/api/users/create', async (req, res) => {
   const nombre = req.body.nombre;
   const contrasena = req.body.contrasena;
-  const encryptedPwd = bcryptjs.hash(contrasena, 8);
+  const encryptedPwd = await bcryptjs.hash(contrasena, 8);
   const puesto = req.body.puesto;
   const departamento = req.body.departamento;
   const correoElectronico = req.body.correoElectronico;
@@ -37,7 +37,7 @@ router.post('/api/users/create', async (req, res) => {
   console.log(nombre)
   
   const createUser = "CALL createUser(?,?,?,?,?,?)" ;
-  const query = mysql.format(createUser, [nombre, contrasena, puesto, departamento, correoElectronico, telefono]); 
+  const query = mysql.format(createUser, [nombre, encryptedPwd, puesto, departamento, correoElectronico, telefono]); 
   console.log(query)
   
     connection.query( query,
