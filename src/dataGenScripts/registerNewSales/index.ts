@@ -12,6 +12,7 @@ export const registerNewSales = async ( fecha : string ) => {
     tipo_boleto = fakeSalesArray[i].tipoBoleto;
     edad = fakeSalesArray[i].edad;
     precio = fakeSalesArray[i].precio;
+    correoElectronico = fakeSalesArray[i].correoElectronico;
     query = mysql.format(createUser, [nombre, fecha, tipo_boleto, edad, correoElectronico, precio]); 
     console.log(query)
     
