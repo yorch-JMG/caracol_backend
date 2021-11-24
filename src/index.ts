@@ -6,8 +6,8 @@ async function main() {
   connection.connect((err) => {
     if(err) throw err;
     else{
-      const fecha = formatDate(2,3,2019);
-      registerNewSales(fecha)
+//      const fecha = formatDate(2,3,2019);
+  //    registerNewSales(fecha)
       console.log('Connected to database!')
     }
   }); 
