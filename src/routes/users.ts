@@ -69,6 +69,9 @@ router.post('/api/login', async (req, res) => {
         try{
           if(bcryptjs.compareSync(contrasena, foundUserPassword)){
             jwt.sign({user: foundUserEmail}, 'secretkey', {expiresIn: '1d'}, (err : any, token : any) => {
+              if(err) {
+                console.log('error on token: ', err)
+              }
               res.send({
                 token
               })
