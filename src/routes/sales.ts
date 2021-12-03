@@ -28,3 +28,13 @@ router.post('/api/sales/makeSales', async (req, res) => {
 
   }
 });
+
+router.post('api/sales/getVisitanteInfo', async (req, res) => {
+  const eventoId = req.body.eventoId;
+  const nombre = req.body.nombre;
+  const fecha = req.body.nombre;
+  const tipoBoleto = req.body.tipoBoleto;
+  const edad = req.body.edad;
+  const correoElectronico = req.body.correoElectronico;
+  
+});
