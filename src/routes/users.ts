@@ -26,6 +26,24 @@ router.get('/api/users',verifyToken, (req : IReq, res : any) => {
   })
 });
 
+router.get('/api/users/getUserById',verifyToken, (req : any, res : any) => {
+  jwt.verify(req.token, 'secretkey', (error : any, authData : any)  => {
+    if(error){
+      res.sendStatus(403);
+    } else {
+        const idVisitanteElegido = req.body.idVisitante;
+        connection.query("CALL getUserById(?)", [idVisitanteElegido], (err, result) => {
+            if(err) throw err;
+            console.log(result)
+            res.json(result)
+        })
+
+    }
+  })
+});
+
+
+
 router.post('/api/users/create', async (req, res) => {
   const nombre = req.body.nombre;
   const contrasena = req.body.contrasena;

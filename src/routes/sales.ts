@@ -22,9 +22,44 @@ router.post('/api/sales/makeSales', async (req, res) => {
       connection.query( query,
                        (err, result) => {
                           if(err) throw err;
-                          console.log(result)
-                          res.json(result)
+                          console.log(result);
+                          res.json(result);
                        })
 
   }
+});
+
+router.post('/api/sales/createTicket', async (req, res) => {
+  const nombre = req.body.nombre_to_add;
+  const fecha = req.body.date_to_add;
+  const tipo_boleto = req.body.tipo_boleto;
+  const edad = req.body.edad_to_add;
+  const correoElectronico = req.body.correo_electronico_to_add;
+  const id_evento = req.body.id_evento;
+  const precio = req.body.precio;
+  console.log(nombre)
+  
+  const createSale = "CALL createSale(?,?,?,?,?,?,?)" ;
+
+  const query = mysql.format(createSale, [nombre, fecha, tipo_boleto, edad, correoElectronico, precio, id_evento ]); 
+  console.log(query)
+  
+    connection.query( query,
+                     (err, result) => {
+                       if(err) res.json(err);
+                       console.log(result);
+                       res.json(result);
+                       })
+});
+
+router.post('api/sales/getTicketForVisitante', async (req,res) => {
+  const getTicketImmediately = "CALL getTicketForVisitante()";
+  const query = mysql.format(getTicketImmediately, []);
+  console.log(query);
+  
+  connection.query(query, (err, result) => {
+    if (err) throw err;
+    console.log(result);
+    res.json(result);
+  })
 });
