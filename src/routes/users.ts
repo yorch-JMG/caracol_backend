@@ -11,19 +11,21 @@ interface IReq {
 }
 
 
-router.get('/api/users',verifyToken, (req : IReq, res : any) => {
-  jwt.verify(req.token, 'secretkey', (error, authData) => {
-    if(error){
-      res.sendStatus(403);
-    } else {
-        connection.query("SELECT * FROM Empleado", (err, result) => {
+router.get('/api/users', (req : IReq, res : any) => {
+//  jwt.verify(req.token, 'secretkey', (error, authData) => {
+//    if(error){
+//      res.sendStatus(403);
+//    } else {
+        const getAllEmpleados = "CALL getAllEmpleados()";
+        connection.query(getAllEmpleados, [], (err, result) => {
             if(err) throw err;
             console.log(result)
             res.json(result)
         })
 
-    }
-  })
+//    }
+//  })
+
 });
 
 router.get('/api/users/getUserById',verifyToken, (req : any, res : any) => {
@@ -107,3 +109,4 @@ router.post('/api/login', async (req, res) => {
   )
 });
 
+module.exports = router;

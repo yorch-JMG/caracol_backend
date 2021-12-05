@@ -2,7 +2,8 @@ import express, {Application} from "express";
 import jwt from "jsonwebtoken";
 import morgan from "morgan";
 import cors from 'cors';
-import {router} from "./routes/users";
+const users = require("./routes/users");
+const sales = require("./routes/sales");
 export class App {
   
   private app: Application;
@@ -20,7 +21,8 @@ export class App {
     this.app.use(express.json())
     this.app.use(morgan('dev'));
     this.app.use(cors())
-    this.app.use(router)
+    this.app.use("/users", users);
+    this.app.use("/sales", sales);
   }
 
   async listen() {
