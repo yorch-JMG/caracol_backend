@@ -1,6 +1,7 @@
 import faker from 'faker';
 import {generateRealisticAge} from '../generateRealisticAge';
 import {generateTicketTypeBasedOnAge} from '../generateTicketInfoBasedOnAge';
+import {generateRandomEventId} from '../generateRandomEventId';
 
 interface FakeCustomer {
   nombre : string,
@@ -8,7 +9,8 @@ interface FakeCustomer {
   tipoBoleto : string,
   edad : number,
   precio : number,
-  fecha : string
+  fecha : string,
+  idEvento : number
 }
 
 export const generateFakeSaleRow = (dateToMakeSalesTo : string) : FakeCustomer => { 
@@ -18,7 +20,8 @@ export const generateFakeSaleRow = (dateToMakeSalesTo : string) : FakeCustomer =
     tipoBoleto : '',
     edad : generateRealisticAge(),
     precio : 1.0,
-    fecha : dateToMakeSalesTo
+    fecha : dateToMakeSalesTo,
+    idEvento : generateRandomEventId()
   } 
 
   const ticketInfo = generateTicketTypeBasedOnAge(customer.edad); 
