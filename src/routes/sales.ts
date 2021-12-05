@@ -3,9 +3,10 @@ import { formatDate } from '../dataGenScripts/formatDate';
 import { Router } from "express";
 import {connection} from "../connection";
 import mysql from 'mysql';
-export const router = Router();
 
-router.post('/api/sales/makeSales', async (req, res) => {
+const router = Router();
+
+router.post('/makeSales', async (req, res) => {
   const fecha = formatDate(12, 2, 2020);
   const fakeSalesArray = generateFakeSalesArray( fecha, 50 ); 
   const createUser = "CALL createSale(?,?,?,?,?,?)" ;
@@ -29,7 +30,7 @@ router.post('/api/sales/makeSales', async (req, res) => {
   }
 });
 
-router.post('/api/sales/createTicket', async (req, res) => {
+router.post('/createTicket', async (req, res) => {
   const nombre = req.body.nombre_to_add;
   const fecha = req.body.date_to_add;
   const tipo_boleto = req.body.tipo_boleto;
@@ -52,7 +53,7 @@ router.post('/api/sales/createTicket', async (req, res) => {
                        })
 });
 
-router.post('api/sales/getTicketForVisitante', async (req,res) => {
+router.get('/getTicketForVisitante', async (req,res) => {
   const getTicketImmediately = "CALL getTicketForVisitante()";
   const query = mysql.format(getTicketImmediately, []);
   console.log(query);
@@ -63,3 +64,65 @@ router.post('api/sales/getTicketForVisitante', async (req,res) => {
     res.json(result);
   })
 });
+
+router.post('/getIngresosByDate', async (req, res) => {
+  const dateForSearch = req.body.dateForSearch;
+  const getIngresosByDate = "CALL getIngresosByDate(?)" ;
+
+  const query = mysql.format(getIngresosByDate, [ dateForSearch ]); 
+  console.log(query)
+  
+    connection.query( query,
+                     (err, result) => {
+                       if(err) res.json(err);
+                       console.log(result);
+                       res.json(result);
+                       })
+});
+
+router.post('/getMostCommonTicketTypeByDate', async (req, res) => {
+  const dateForSearch = req.body.dateForSearch;
+  const getIngresosByDate = "CALL getMostCommonTicketTypeByDate(?)" ;
+
+  const query = mysql.format(getIngresosByDate, [ dateForSearch ]); 
+  console.log(query)
+  
+    connection.query( query,
+                     (err, result) => {
+                       if(err) res.json(err);
+                       console.log(result);
+                       res.json(result);
+                       })
+});
+
+router.post('/getAverageAgeByDate', async (req, res) => {
+  const dateForSearch = req.body.dateForSearch;
+  const getAverageAgeByDate = "CALL getAverageAgeByDate(?)" ;
+
+  const query = mysql.format(getAverageAgeByDate, [ dateForSearch ]); 
+  console.log(query)
+  
+    connection.query( query,
+                     (err, result) => {
+                       if(err) res.json(err);
+                       console.log(result);
+                       res.json(result);
+                       })
+});
+
+router.post('/getSalesByDate', async (req, res) => {
+  const dateForSearch = req.body.dateForSearch;
+  const getSalesForDate = "CALL getSalesByDate(?)" ;
+
+  const query = mysql.format(getSalesForDate, [ dateForSearch ]); 
+  console.log(query)
+  
+    connection.query( query,
+                     (err, result) => {
+                       if(err) res.json(err);
+                       console.log(result);
+                       res.json(result);
+                       })
+});
+
+module.exports = router;
