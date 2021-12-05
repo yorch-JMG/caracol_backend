@@ -36,6 +36,7 @@ router.post('/api/sales/createTicket', async (req, res) => {
   const edad = req.body.edad_to_add;
   const correoElectronico = req.body.correo_electronico_to_add;
   const id_evento = req.body.id_evento;
+  const precio = req.body.precio;
   console.log(nombre)
   
   const createSale = "CALL createSale(?,?,?,?,?,?,?)" ;
@@ -48,7 +49,7 @@ router.post('/api/sales/createTicket', async (req, res) => {
                        if(err) res.json(err);
                        console.log(result);
                        res.json(result);
-                       
+                       })
 });
 
 router.post('api/sales/getTicketForVisitante', async (req,res) => {
@@ -61,6 +62,4 @@ router.post('api/sales/getTicketForVisitante', async (req,res) => {
     console.log(result);
     res.json(result);
   })
-
-  
 });
