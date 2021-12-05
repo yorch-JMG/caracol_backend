@@ -45,14 +45,19 @@ router.post('/api/users/create', async (req, res) => {
                        if(err) res.json(err);
                        console.log(result);
                        res.json(result)
-                     })
+                      jwt.sign({user: correoElectronico}, 'secretkey', {expiresIn: '1d'}, (err : any, token : any) => {
+                                res.send({
+                                    token
+                                })
+                              });
+                     });
 });
 
 router.post('/api/login', async (req, res) => {
   const correoElectronico = req.body.correoElectronico;
   const contrasena = req.body.contrasena;
   const userLogin = "CALL getEmailAndPassword(?,?)";
-  const query = mysql.format(userLogin, [correoElectronico, bcryptjs.hashSync(contrasena)])
+  const query = mysql.format(userLogin, [correoElectronico, contrasena])
   connection.query(
     query,
     (err, result) => {
@@ -61,18 +66,18 @@ router.post('/api/login', async (req, res) => {
         const foundUser = result[0][0];
         const foundUserPassword = foundUser.contrasena;
         const foundUserEmail = foundUser.correoElectronico;
-        console.log(foundUserPassword)
         try{
-          if(contrasena === foundUserPassword){
-            console.log(true)
+          if(bcryptjs.compareSync(contrasena, foundUserPassword)){
             jwt.sign({user: foundUserEmail}, 'secretkey', {expiresIn: '1d'}, (err : any, token : any) => {
+              if(err) {
+                console.log('error on token: ', err)
+              }
               res.send({
                 token
               })
             })
           }
           else{
-            console.log(false)
             res.send("Contrasena incorrecta")
           }
         }
