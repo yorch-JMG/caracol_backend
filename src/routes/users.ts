@@ -11,7 +11,7 @@ interface IReq {
 }
 
 
-router.get('/api/users', (req : IReq, res : any) => {
+router.get('/', (req : IReq, res : any) => {
 //  jwt.verify(req.token, 'secretkey', (error, authData) => {
 //    if(error){
 //      res.sendStatus(403);
@@ -28,7 +28,7 @@ router.get('/api/users', (req : IReq, res : any) => {
 
 });
 
-router.get('/api/users/getUserById',verifyToken, (req : any, res : any) => {
+router.get('/getUserById',verifyToken, (req : any, res : any) => {
   jwt.verify(req.token, 'secretkey', (error : any, authData : any)  => {
     if(error){
       res.sendStatus(403);
@@ -46,7 +46,7 @@ router.get('/api/users/getUserById',verifyToken, (req : any, res : any) => {
 
 
 
-router.post('/api/users/create', async (req, res) => {
+router.post('/create', async (req, res) => {
   const nombre = req.body.nombre;
   const contrasena = req.body.contrasena;
   const encryptedPwd = await bcryptjs.hash(contrasena, 8);
@@ -73,7 +73,7 @@ router.post('/api/users/create', async (req, res) => {
                      });
 });
 
-router.post('/api/login', async (req, res) => {
+router.post('/login', async (req, res) => {
   const correoElectronico = req.body.correoElectronico;
   const contrasena = req.body.contrasena;
   const userLogin = "CALL getEmailAndPassword(?,?)";

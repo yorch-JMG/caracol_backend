@@ -65,6 +65,50 @@ router.get('/getTicketForVisitante', async (req,res) => {
   })
 });
 
+router.post('/getIngresosByDate', async (req, res) => {
+  const dateForSearch = req.body.dateForSearch;
+  const getIngresosByDate = "CALL getIngresosByDate(?)" ;
+
+  const query = mysql.format(getIngresosByDate, [ dateForSearch ]); 
+  console.log(query)
+  
+    connection.query( query,
+                     (err, result) => {
+                       if(err) res.json(err);
+                       console.log(result);
+                       res.json(result);
+                       })
+});
+
+router.post('/getMostCommonTicketTypeByDate', async (req, res) => {
+  const dateForSearch = req.body.dateForSearch;
+  const getIngresosByDate = "CALL getMostCommonTicketTypeByDate(?)" ;
+
+  const query = mysql.format(getIngresosByDate, [ dateForSearch ]); 
+  console.log(query)
+  
+    connection.query( query,
+                     (err, result) => {
+                       if(err) res.json(err);
+                       console.log(result);
+                       res.json(result);
+                       })
+});
+
+router.post('/getAverageAgeByDate', async (req, res) => {
+  const dateForSearch = req.body.dateForSearch;
+  const getAverageAgeByDate = "CALL getAverageAgeByDate(?)" ;
+
+  const query = mysql.format(getAverageAgeByDate, [ dateForSearch ]); 
+  console.log(query)
+  
+    connection.query( query,
+                     (err, result) => {
+                       if(err) res.json(err);
+                       console.log(result);
+                       res.json(result);
+                       })
+});
 
 router.post('/getSalesByDate', async (req, res) => {
   const dateForSearch = req.body.dateForSearch;
