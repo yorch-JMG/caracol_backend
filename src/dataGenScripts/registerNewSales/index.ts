@@ -3,7 +3,7 @@ import mysql from 'mysql';
 import { generateFakeSalesArray } from '../generateFakeSalesArray';
 
 export const registerNewSales = async ( fecha : string ) => {
-  const fakeSalesArray = generateFakeSalesArray( fecha, 3 ); 
+  const fakeSalesArray = generateFakeSalesArray( fecha, 29 ); 
   const createUser = "CALL createSale(?,?,?,?,?,?,?)" ;
   let query;
   let nombre, tipo_boleto, edad, correoElectronico, precio, idEvento;

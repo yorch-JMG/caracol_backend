@@ -188,6 +188,20 @@ router.post('/getMostCommonTicketTypeByEventId', async (req, res) => {
                        })
 });
 
+router.get('/getTotalYearsAndTotalSales', async (req, res) => {
+  const getTotalYearsAndTotalSales = "CALL getTotalYearsAndTotalSales()" ;
+
+  const query = mysql.format(getTotalYearsAndTotalSales, []); 
+  console.log(query)
+  
+    connection.query( query,
+                     (err, result) => {
+                       if(err) res.json(err);
+                       console.log(result);
+                       res.json(result);
+                       })
+});
+
 router.post('/getAverageAgeByEventId', async (req, res) => {
   const eventId = req.body.eventId;
   const getAverageAgeByEventId = "CALL getAverageAgeByEventId(?)" ;
