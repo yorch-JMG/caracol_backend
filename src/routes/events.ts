@@ -3,7 +3,7 @@ import {connection} from "../connection";
 import mysql from 'mysql';
 export const router = Router();
 
-router.get('/api/events', async (req, res) => {
+router.get('/', async (req, res) => {
   const getAllEventos = "CALL getAllEventos()" ;
   let query;
     query = mysql.format(getAllEventos, []); 
@@ -18,3 +18,5 @@ router.get('/api/events', async (req, res) => {
 
   }
 );
+
+module.exports = router;
