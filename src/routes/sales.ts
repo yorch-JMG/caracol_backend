@@ -157,4 +157,51 @@ router.post('/getMostCommonTicketTypeByInterval', async (req, res) => {
                        })
 });
 
+
+router.post('/getIngresosByEventId', async (req, res) => {
+  const eventId = req.body.eventId;
+  const getIngresosByEventId = "CALL getIngresosByEventId(?)" ;
+
+  const query = mysql.format(getIngresosByEventId, [ eventId ]); 
+  console.log(query)
+  
+    connection.query( query,
+                     (err, result) => {
+                       if(err) res.json(err);
+                       console.log(result);
+                       res.json(result);
+                       })
+});
+
+router.post('/getMostCommonTicketTypeByEventId', async (req, res) => {
+  const eventId = req.body.eventId;
+  const getMostCommonTicketTypeByEventId = "CALL getMostCommonTicketTypeByEventId(?)" ;
+
+  const query = mysql.format(getMostCommonTicketTypeByEventId, [ eventId ]); 
+  console.log(query)
+  
+    connection.query( query,
+                     (err, result) => {
+                       if(err) res.json(err);
+                       console.log(result);
+                       res.json(result);
+                       })
+});
+
+router.post('/getAverageAgeByEventId', async (req, res) => {
+  const eventId = req.body.eventId;
+  const getAverageAgeByEventId = "CALL getAverageAgeByEventId(?)" ;
+
+  const query = mysql.format(getAverageAgeByEventId, [ eventId ]); 
+  console.log(query)
+  
+    connection.query( query,
+                     (err, result) => {
+                       if(err) res.json(err);
+                       console.log(result);
+                       res.json(result);
+                       })
+});
+
 module.exports = router;
+
