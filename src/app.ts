@@ -4,6 +4,7 @@ import morgan from "morgan";
 import cors from 'cors';
 const users = require("./routes/users");
 const sales = require("./routes/sales");
+const events = require("./routes/events");
 export class App {
   
   private app: Application;
@@ -23,6 +24,7 @@ export class App {
     this.app.use(cors())
     this.app.use("/users", users);
     this.app.use("/sales", sales);
+    this.app.use("/events", events);
   }
 
   async listen() {

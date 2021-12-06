@@ -65,6 +65,7 @@ router.get('/getTicketForVisitante', async (req,res) => {
   })
 });
 
+
 router.post('/getIngresosByDate', async (req, res) => {
   const dateForSearch = req.body.dateForSearch;
   const getIngresosByDate = "CALL getIngresosByDate(?)" ;
@@ -110,11 +111,88 @@ router.post('/getAverageAgeByDate', async (req, res) => {
                        })
 });
 
-router.post('/getSalesByDate', async (req, res) => {
-  const dateForSearch = req.body.dateForSearch;
-  const getSalesForDate = "CALL getSalesByDate(?)" ;
+router.post('/getIngresosByInterval', async (req, res) => {
+  const beginningDate = req.body.beginningDate;
+  const endDate = req.body.endDate;
+  const getIngresosByInterval = "CALL getIngresosByInterval(?,?)" ;
 
-  const query = mysql.format(getSalesForDate, [ dateForSearch ]); 
+  const query = mysql.format(getIngresosByInterval, [ beginningDate, endDate ]); 
+  console.log(query)
+  
+    connection.query( query,
+                     (err, result) => {
+                       if(err) res.json(err);
+                       console.log(result);
+                       res.json(result);
+                       })
+});
+router.post('/getAverageAgeByInterval', async (req, res) => {
+  const beginningDate = req.body.beginningDate;
+  const endDate = req.body.endDate;
+  const getAverageAgeByInterval = "CALL getAverageAgeByInterval(?,?)" ;
+
+  const query = mysql.format(getAverageAgeByInterval, [beginningDate, endDate]); 
+  console.log(query)
+  
+    connection.query( query,
+                     (err, result) => {
+                       if(err) res.json(err);
+                       console.log(result);
+                       res.json(result);
+                       })
+});
+router.post('/getMostCommonTicketTypeByInterval', async (req, res) => {
+  const beginningDate = req.body.beginningDate;
+  const endDate = req.body.endDate;
+  const getMostCommonTicketTypeByInterval = "CALL getMostCommonTicketTypeByInterval(?,?)" ;
+
+  const query = mysql.format(getMostCommonTicketTypeByInterval, [ beginningDate, endDate ]); 
+  console.log(query)
+  
+    connection.query( query,
+                     (err, result) => {
+                       if(err) res.json(err);
+                       console.log(result);
+                       res.json(result);
+                       })
+});
+
+
+router.post('/getIngresosByEventId', async (req, res) => {
+  const eventId = req.body.eventId;
+  const getIngresosByEventId = "CALL getIngresosByEventId(?)" ;
+
+  const query = mysql.format(getIngresosByEventId, [ eventId ]); 
+  console.log(query)
+  
+    connection.query( query,
+                     (err, result) => {
+                       if(err) res.json(err);
+                       console.log(result);
+                       res.json(result);
+                       })
+});
+
+router.post('/getMostCommonTicketTypeByEventId', async (req, res) => {
+  const eventId = req.body.eventId;
+  const getMostCommonTicketTypeByEventId = "CALL getMostCommonTicketTypeByEventId(?)" ;
+
+  const query = mysql.format(getMostCommonTicketTypeByEventId, [ eventId ]); 
+  console.log(query)
+  
+    connection.query( query,
+                     (err, result) => {
+                       if(err) res.json(err);
+                       console.log(result);
+                       res.json(result);
+                       })
+});
+
+router.post('/getAverageAgeByEventId', async (req, res) => {
+  const eventId = req.body.eventId;
+  const getAverageAgeByEventId = "CALL getAverageAgeByEventId(?)" ;
+
+  const query = mysql.format(getAverageAgeByEventId, [ eventId ]); 
   console.log(query)
   
     connection.query( query,
@@ -126,3 +204,4 @@ router.post('/getSalesByDate', async (req, res) => {
 });
 
 module.exports = router;
+
