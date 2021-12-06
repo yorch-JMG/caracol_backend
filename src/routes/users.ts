@@ -28,20 +28,21 @@ router.get('/', (req : IReq, res : any) => {
 
 });
 
-router.get('/getUserById',verifyToken, (req : any, res : any) => {
-  jwt.verify(req.token, 'secretkey', (error : any, authData : any)  => {
-    if(error){
-      res.sendStatus(403);
-    } else {
-        const idVisitanteElegido = req.body.idVisitante;
-        connection.query("CALL getUserById(?)", [idVisitanteElegido], (err, result) => {
+router.get('/getEmpleadoById', (req : any, res : any) => {
+//  jwt.verify(req.token, 'secretkey', (error : any, authData : any)  => {
+//    if(error){
+//      res.sendStatus(403);
+//    } else {
+        const idEmpleado = req.body.idEmpleado;
+        const getEmpleadoById = "CALL getEmpleadoById(?)";
+        connection.query(getEmpleadoById, [idEmpleado], (err, result) => {
             if(err) throw err;
             console.log(result)
             res.json(result)
         })
 
-    }
-  })
+//    }
+//  })
 });
 
 
