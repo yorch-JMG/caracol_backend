@@ -1,5 +1,6 @@
 import { generateFakeSalesArray } from '../dataGenScripts/generateFakeSalesArray';
 import { formatDate } from '../dataGenScripts/formatDate';
+import {generateTicketTypeBasedOnAge} from '../dataGenScripts/generateTicketInfoBasedOnAge';
 import { Router } from "express";
 import {connection} from "../connection";
 import mysql from 'mysql';
@@ -32,17 +33,14 @@ router.post('/makeSales', async (req, res) => {
 
 router.post('/createTicket', async (req, res) => {
   const nombre = req.body.nombre_to_add;
-  const fecha = req.body.date_to_add;
-  const tipo_boleto = req.body.tipo_boleto;
   const edad = req.body.edad_to_add;
   const correoElectronico = req.body.correo_electronico_to_add;
   const id_evento = req.body.id_evento;
-  const precio = req.body.precio;
-  console.log(nombre)
+  const precioTipo = generateTicketTypeBasedOnAge(edad);
   
-  const createSale = "CALL createSale(?,?,?,?,?,?,?)" ;
+  const createSale = "CALL createSaleForUser(?,?,?,?,?,?)" ;
 
-  const query = mysql.format(createSale, [nombre, fecha, tipo_boleto, edad, correoElectronico, precio, id_evento ]); 
+  const query = mysql.format(createSale, [nombre, precioTipo.tipo, edad, correoElectronico, precioTipo.precio, id_evento ]); 
   console.log(query)
   
     connection.query( query,
